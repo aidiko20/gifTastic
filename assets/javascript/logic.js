@@ -1,39 +1,71 @@
 $(document).ready(function () {
 
     // My variables
-    var topics = ["Avengers", "Friends", "Harry Potter", "How I met your mother", "Beauty and the Beast", "Pride and Predjudice"]
+    var topics = ["Avengers", "Friends", "Harry Potter", "How I met your mother", "Beauty and the Beast", "Pride and Predjudice", "Supernatural", "Game of Thrones", "Pirates of the Carribeans", "Goodwill Hunting"]
 
     console.log(topics);
     //looping on topics
     for (var i = 0; i < topics.length; i++) {
         var button = $("<button>").text(topics[i]);
+        button.attr("data-name", topics[i]);
         $("#display-buttons").append(button);
     }
-        $(document).click("button", function () {
-            var movie = $(this).attr("#data-movie")
-            var queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + movie + "&api_key=6FeZkmjXbl4mABjEJ76VZMnA3pOdhYNB&&limit=10";
-            $.ajax({
-                url: queryUrl,
-                method: "GET"
-            }).then(function (response) {
-                var results = response.data
-                for (var i = 0; i < topics.length; i++) {
+    $("button").click(function () {
 
-                    var showDiv = $("<div>");
-                    var p = $("<p>").text("Rating: " + results[i].rating);
-                    var showImage = $("<img>");
- 
-                    showImage.attr("src", results[i].images.fixed_height.url);
+        var movie = $(this).attr("data-name")
+        console.log(movie);
+        var queryUrl = "https://api.giphy.com/v1/gifs/search?api_key=6FeZkmjXbl4mABjEJ76VZMnA3pOdhYNB&q=" + movie + "&limit=10";
+        $.ajax({
+            url: queryUrl,
+            method: "GET"
+        }).then(function (response) {
+            var results = response.data
+            console.log(results);
+            for (var i = 0; i < topics.length; i++) {
 
-                    showDiv.append(p);
-                    showDiv.append(showImage);
+                var showDiv = $("<div>");
+                var p = $("<p>").text("Rating: " + results[i].rating);
+                var imageUrl = response.data[i].images.fixed_height.url;
+             	var imageStillUrl = response.data[i].images.fixed_height_still.url;
 
-                    $("#display-images").prepend(showDiv);
-                }
-                console.log(response)
-            });
+                var showImage = $("<img>");
+
+                showImage.attr("src", imageStillUrl);
+                showImage.attr('alt', 'gif');
+                showImage.attr('data-state', 'still');
+                showImage.attr('data-still', imageStillUrl);
+                showImage.attr('data-animate', imageUrl);
+
+                showDiv.append(p);
+                showDiv.append(showImage);
+
+                $("#display-images").prepend(showDiv);
+            }
+            console.log(response)
         });
     });
+    function playGif () {
+        var state = $(this).attr('data-state');
+        if (state === 'still') {
+          $(this).attr('src', $(this).attr('data-animate'));
+          $(this).attr('data-state', 'animate');
+        }
+        else {
+          $(this).attr('src' , $(this).attr('data-still'));
+          $(this).attr('data-state', 'still');
+        }
+      }
+    $("#submitButton").on("click", function () {
+        event.preventDefault();
+        var newShow = $("#display-buttons").val().trim();
+        
+        console.log(newShow);
+
+        topics.push(newShow);
+ 
+    });
+
+});
 
 
 
