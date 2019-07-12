@@ -29,7 +29,7 @@ $(document).ready(function () {
              	var imageStillUrl = response.data[i].images.fixed_height_still.url;
 
                 var showImage = $("<img>");
-
+                showImage.addClass("gifPic");
                 showImage.attr("src", imageStillUrl);
                 showImage.attr('alt', 'gif');
                 showImage.attr('data-state', 'still');
@@ -55,6 +55,7 @@ $(document).ready(function () {
           $(this).attr('data-state', 'still');
         }
       }
+      $(document).on("click",".gifPic",playGif);
     $("#submitButton").on("click", function () {
         event.preventDefault();
         var newShow = $("#display-buttons").val().trim();
