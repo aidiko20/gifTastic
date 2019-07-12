@@ -1,8 +1,22 @@
-.container {
+body{
     font-family: 'Playfair Display', serif; 
     color:grey;
+    font-style: bolder;
 }
-#form {
-    font-family: 'Playfair Display', serif; 
-    
+#submitButton{
+    background-color: rgb(123, 5, 50);
+    color: grey;
+}
+label{
+    color:black;
+}
+.row{
+    margin: 10px;
+    border: 10px;
+    float: left;
+}
+.row1{
+    margin: 10px;
+    border: 10px;
+    float: left;
 }
