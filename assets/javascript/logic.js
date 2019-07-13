@@ -22,7 +22,7 @@ $(document).ready(function () {
             $("#display-buttons").append(button);
         }
     }
-    $(document).on('click', function () {
+    
         $(".newButton").on('click', function () {
 
             var movie = $(this).attr("data-name")
@@ -68,7 +68,7 @@ $(document).ready(function () {
         }
         $(document).on("click", ".gifPic", playGif);
     });
-});
+
 
 
 
